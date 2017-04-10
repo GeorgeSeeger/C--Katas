@@ -49,6 +49,7 @@
     <Compile Include="Convert.cs" />
     <Compile Include="Digits.cs" />
     <Compile Include="Greed.cs" />
+    <Compile Include="IPv4.cs" />
     <Compile Include="JosephusSurvivor.cs" />
     <Compile Include="Librarian.cs" />
     <Compile Include="MovingCaesar.cs" />
