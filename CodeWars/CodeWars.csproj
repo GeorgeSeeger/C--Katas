@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Belong.cs" />
+    <Compile Include="Big.cs" />
     <Compile Include="Brace.cs" />
     <Compile Include="CamelCaser.cs" />
     <Compile Include="Convert.cs" />
