@@ -49,6 +49,7 @@
     <Compile Include="Big.cs" />
     <Compile Include="Brace.cs" />
     <Compile Include="CamelCaser.cs" />
+    <Compile Include="Connect4.cs" />
     <Compile Include="Convert.cs" />
     <Compile Include="Digits.cs" />
     <Compile Include="Greed.cs" />

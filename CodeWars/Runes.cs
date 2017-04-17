@@ -38,9 +38,9 @@ namespace CodeWars
             return (int)(loDataTable.Rows[0]["Eval"]);
         }
 
-        public static void Main(string[] args)
-        {
-            
-        }
+        //public static void Main(string[] args)
+        //{
+
+        //}
     }
 }
