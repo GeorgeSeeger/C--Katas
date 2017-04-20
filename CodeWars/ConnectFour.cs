@@ -6,21 +6,25 @@ namespace CodeWars
 {
     public class ConnectFour
     {
-        private static List<List<string>> board = new List<List<string>>() { new List<string>(){ },
+        private static List<List<string>> Board()
+        {
+           return new List<List<string>>() { new List<string>(){ },
                                                                              new List<string>(){ },
                                                                              new List<string>(){ },
                                                                              new List<string>(){ },
                                                                              new List<string>(){ },
                                                                              new List<string>(){ },
-                                                                             new List<string>(){ } };
+                                                                             new List<string>(){ } }; 
+        } 
 
         public static string WhoIsWinner(List<string> piecesPositionList)
         {
-            foreach(var s in piecesPositionList)
+            var board = Board();
+            foreach (var s in piecesPositionList)
             {
                 var command = s.Split('_');
-                AddToBoard(command);
-                if (CheckWinner())
+                AddToBoard(command, board);
+                if (CheckWinner(board))
                 {
                     return command[1];
                 }
@@ -28,20 +32,20 @@ namespace CodeWars
             return "Draw";
         }
 
-        private static void AddToBoard(string[] command)
+        private static void AddToBoard(string[] command, List<List<string>> board )
         {
             var col = command[0];
-            var column = FindColumn(col);
+            var column = FindColumn(col, board);
             column.Add(command[1]);
         }
 
-        private static List<string> FindColumn(string col)
+        private static List<string> FindColumn(string col, List<List<string>> board)
         {
             var colNum = new List<string>() { "A", "B", "C", "D", "E", "F", "G" }.IndexOf(col);
             return board[colNum];
         }
 
-        private static bool CheckWinner()
+        private static bool CheckWinner(List<List<string>> board)
         {
             //check vertical columns
             foreach (var column in board)
@@ -79,7 +83,7 @@ namespace CodeWars
 
                     board.Reverse();
                     var cellReversed = board[j].Skip(i - j).Take(1).FirstOrDefault();
-                    diagRight.Add(cell);
+                    diagRight.Add(cellReversed);
                     board.Reverse();
                 }
                 if (ListHasWinner(diagLeft) || ListHasWinner(diagRight))
@@ -103,29 +107,42 @@ namespace CodeWars
             return false;
         }
 
-        //public static void Main(string[] args)
-        //{
-        //    List<string> myList = new List<string>()
-        //    {
-        //        "A_Yellow",
-        //        "B_Red",
-        //        "B_Yellow",
-        //        "C_Red",
-        //        "G_Yellow",
-        //        "C_Red",
-        //        "C_Yellow",
-        //        "D_Red",
-        //        "G_Yellow",
-        //        "D_Red",
-        //        "G_Yellow",
-        //        "D_Red",
-        //        "F_Yellow",
-        //        "E_Red",
-        //        "D_Yellow"
-        //    };
-
-        //    var ans = WhoIsWinner(myList);
-        //    var a = 2;
-        //}
+//        public static void Main(string[] args)
+//        {
+//            List<string> myList = new List<string>()
+//            {
+//                "C_Yellow",
+//                "E_Red",
+//                "G_Yellow",
+//                "B_Red",
+//                "D_Yellow",
+//                "B_Red",
+//                "B_Yellow",
+//                "G_Red",
+//                "C_Yellow",
+//                "C_Red",
+//                "D_Yellow",
+//                "F_Red",
+//                "E_Yellow",
+//                "A_Red",
+//                "A_Yellow",
+//                "G_Red",
+//                "A_Yellow",
+//                "F_Red",
+//                "F_Yellow",
+//                "D_Red",
+//                "B_Yellow",
+//                "E_Red",
+//                "D_Yellow",
+//                "A_Red",
+//                "G_Yellow",
+//                "D_Red",
+//                "D_Yellow",
+//                "C_Red"
+//            };
+//
+//            var ans = WhoIsWinner(myList);
+//            var a = 2;
+//        }
     }
 }
