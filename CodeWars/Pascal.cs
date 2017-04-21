@@ -25,9 +25,9 @@
             return PascalsTriangle(n - 1).Concat(row).ToList();
         }
 
-        public static void Main(string[] args)
-        {
-            var a = PascalsTriangle(20);
-        }
+//        public static void Main(string[] args)
+//        {
+//            var a = PascalsTriangle(20);
+//        }
     }
 }
