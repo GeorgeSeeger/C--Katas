@@ -71,9 +71,9 @@ namespace CodeWars
             Assert.Equal(2, IsInteresting(11211, new List<int>() { 1337, 256 }));
         }
 
-        public static void Main(string[] args)
-        {
-            
-        }
+//        public static void Main(string[] args)
+//        {
+//            
+//        }
     }
 }
