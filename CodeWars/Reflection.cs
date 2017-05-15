@@ -10,18 +10,18 @@ namespace CodeWars
 {
     public static class Reflection
     {
-        //        public static string InvokeMethod(string typeName)
-        //        {
-        //            if (typeName == String.Empty) return String.Empty;
-        //            if (typeName == null) return null;
-        //
-        //            var t = Type.GetType(typeName);
-        //            if (t == null) return null;
-        //
-        //            var ctors = t.GetConstructors(BindingFlags.Public);
-        //            var obj = ctors[0].Invoke(new object[] {});
-        //            return obj.
-        //        }
+        public static string InvokeMethod(string typeName)
+        {
+            if (typeName == String.Empty) return String.Empty;
+            if (typeName == null) return null;
+        
+            var type = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(t => t.Name == typeName);
+            if (type == null) return null;
+
+            var ctor = type.GetConstructor(System.Type.EmptyTypes);
+            var instance = ctor.Invoke(null);
+            return (string) type.GetMethods().FirstOrDefault(mi => mi.DeclaringType == type).Invoke(instance, new object[] {});
+        }
 
         public static string ConcatStringMembers(object testObject)
         {
@@ -46,6 +46,12 @@ namespace CodeWars
             Assert.Equal("Test-OutputStarkTen", ConcatStringMembers(new Refl()));
             Assert.Equal("OutputIt", ConcatStringMembers(new testClass()));
             Assert.Equal("", ConcatStringMembers(null));
+        }
+
+        [Fact]
+        public static void InvokeTests()
+        {
+            Assert.Equal("Holla!", InvokeMethod("InvokeClass"));
         }
 
         public class Refl
@@ -82,6 +88,14 @@ namespace CodeWars
             }
         }
 
+        public class InvokeClass
+        {
+            public InvokeClass() { }
+            public string Output()
+            {
+                return "Holla!";
+            }
+        }
 
     }
 }
