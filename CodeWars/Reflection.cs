@@ -14,13 +14,28 @@ namespace CodeWars
         {
             if (typeName == String.Empty) return String.Empty;
             if (typeName == null) return null;
-        
-            var type = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(t => t.Name == typeName);
-            if (type == null) return null;
+            var type = Type.GetType(typeName);
+            if (type == null)
+            {
+                type = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(t => t.Name == typeName);
+                if (type == null) return null;
+            }
 
-            var ctor = type.GetConstructor(System.Type.EmptyTypes);
-            var instance = ctor.Invoke(null);
+            var instance = ConstructObject(type);
             return (string) type.GetMethods().FirstOrDefault(mi => mi.DeclaringType == type).Invoke(instance, new object[] {});
+        }
+
+        private static object ConstructObject(Type type)
+        {
+            var ctors = type.GetConstructors();
+            if (type.GetConstructors().FirstOrDefault().GetParameters().Length == 0)
+            {
+                return ctors.FirstOrDefault().Invoke(null);
+            }
+            var parameters =
+                ctors.Select(c => c.GetParameters().Select(p => ConstructObject(p.ParameterType)));
+            return ctors.FirstOrDefault().Invoke(parameters.FirstOrDefault().ToArray());
+
         }
 
         public static string ConcatStringMembers(object testObject)
@@ -52,6 +67,7 @@ namespace CodeWars
         public static void InvokeTests()
         {
             Assert.Equal("Holla!", InvokeMethod("InvokeClass"));
+            Assert.Equal("yeahhhhh buddy", InvokeMethod("InvokeComplex"));
         }
 
         public class Refl
@@ -94,6 +110,16 @@ namespace CodeWars
             public string Output()
             {
                 return "Holla!";
+            }
+        }
+
+        public class InvokeComplex
+        {
+            public InvokeComplex(Refl a, testClass b) { }
+
+            public string Output()
+            {
+                return "yeahhhhh buddy";
             }
         }
 
