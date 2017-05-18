@@ -85,6 +85,7 @@
     <Compile Include="Reflection.cs" />
     <Compile Include="Roman.cs" />
     <Compile Include="Runes.cs" />
+    <Compile Include="SimpleFun.cs" />
     <Compile Include="Squares.cs" />
     <Compile Include="TextAlign.cs" />
     <Compile Include="TicTacToe.cs" />
