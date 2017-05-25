@@ -79,6 +79,7 @@
     <Compile Include="MovingCaesar.cs" />
     <Compile Include="Numbers.cs" />
     <Compile Include="Pascal.cs" />
+    <Compile Include="Pokerhand.cs" />
     <Compile Include="PrimeDecomp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Permutation.cs" />
