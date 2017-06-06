@@ -71,10 +71,12 @@
     <Compile Include="Digits.cs" />
     <Compile Include="DoubleLinear.cs" />
     <Compile Include="Factorials.cs" />
+    <Compile Include="FunctionalStreams.cs" />
     <Compile Include="Greed.cs" />
     <Compile Include="IntPart.cs" />
     <Compile Include="IPv4.cs" />
     <Compile Include="JosephusSurvivor.cs" />
+    <Compile Include="Kata.cs" />
     <Compile Include="Librarian.cs" />
     <Compile Include="MovingCaesar.cs" />
     <Compile Include="Numbers.cs" />
