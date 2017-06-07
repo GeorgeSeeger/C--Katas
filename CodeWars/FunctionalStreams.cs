@@ -87,7 +87,7 @@ namespace CodeWars
         */
         public static U Foldr<T, U>(this Stream<T> s, Func<T, Func<U>, U> f)
         {
-            throw new NotImplementedException();
+            return f.Invoke(s.Head, () => s.Tail.Value.Foldr(f));
         }
 
         // Filter stream with a predicate function.
@@ -125,7 +125,7 @@ namespace CodeWars
         // Combine 2 streams with a function.
         public static Stream<R> ZipWith<T, U, R>(this Stream<T> s, Func<T, U, R> f, Stream<U> other)
         {
-            throw new NotImplementedException();
+            return Cons(f.Invoke(s.Head, other.Head), () => s.Tail.Value.ZipWith<T, U, R>(f, other.Tail.Value));
         }
 
         // Map every value of the stream with a function, returning a new stream.
@@ -138,13 +138,24 @@ namespace CodeWars
         // Return the stream of all fibonacci numbers.
         public static Stream<int> Fib()
         {
-            throw new NotImplementedException();
+            var phi = (Math.Sqrt(5) + 1) / 2;
+            return From(0).FMap(i => (int)Math.Round( Math.Pow(phi, i) / Math.Sqrt(5) - Math.Pow(- phi + 1, i) / Math.Sqrt(5)));
         }
 
         // Return the stream of all prime numbers.
         public static Stream<int> Primes()
         {
-            throw new NotImplementedException();
+            return From(2).Filter(IsPrime); 
+        }
+
+        private static bool IsPrime(int n)
+        {
+            int k = 2;
+            while (k * k <= n) {
+                if (n % k == 0) return false;
+                k++;
+            }
+            return true;
         }
     }
 }
