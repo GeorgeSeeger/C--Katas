@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace CodeWars
 {
     using System;
     using System.Collections.Generic;
 
+    //https://www.codewars.com/kata/functional-streams/train/csharp
     /*
         A Stream is an infinite sequence of items. It is defined recursively
         as a head item followed by the tail, which is another stream.
@@ -27,7 +29,7 @@ namespace CodeWars
         }
     }
 
-    static class Stream
+    public static class Stream
     {
         /*
             Your first task is to define a utility function which constructs a
@@ -156,6 +158,151 @@ namespace CodeWars
                 k++;
             }
             return true;
+        }
+
+        [Fact]
+        public static void Repeat()
+        {
+            var v = new Random().Next();
+            var s = Stream.Repeat(v);
+            for (var i = 0; i < 100; i++)
+            {
+                Assert.Equal(v, s.Head);
+                s = s.Tail.Value;
+            }
+        }
+
+        [Fact]
+        public static void Iterate()
+        {
+            long multiplier = new Random().Next(9);
+            Func<long, long> multiply = x => x * multiplier;
+            long multiplied = multiplier;
+            var expStream = Stream.Iterate(multiply, multiplied);
+
+            Func<string, string> concatenate = x => x + " ";
+            var concatenated = "";
+            var addWSStream = Stream.Iterate(concatenate, concatenated);
+
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.Equal(multiplied, expStream.Head);
+                expStream = expStream.Tail.Value;
+                multiplied = multiply(multiplied);
+
+                Assert.Equal(concatenated, addWSStream.Head);
+                addWSStream = addWSStream.Tail.Value;
+                concatenated = concatenate(concatenated);
+            }
+        }
+
+        [Fact]
+        public static void Cycle()
+        {
+            var r = new Random();
+            var a = Enumerable.Range(0, 20).Select(i => r.Next()).ToArray();
+            var s = Stream.Cycle(a);
+            for (var i = 0; i < 100; i++)
+            {
+                Assert.Equal(a[i % a.Length], s.Head);
+                s = s.Tail.Value;
+            }
+        }
+
+        [Fact]
+        public static void From()
+        {
+            var v = new Random().Next();
+            var s = Stream.From(v);
+            for (var i = v; i < v + 100; i++)
+            {
+                Assert.Equal(i, s.Head);
+                s = s.Tail.Value;
+            }
+        }
+
+        [Fact]
+        public static void FromThen()
+        {
+            var r = new Random();
+            var v = r.Next();
+            var d = r.Next(200);
+            var s = Stream.FromThen(v, d);
+            for (var i = v; i < v + 100 * d; i += d)
+            {
+                Assert.Equal(i, s.Head);
+                s = s.Tail.Value;
+            }
+        }
+
+        [Fact]
+        public static void Foldr()
+        {
+            var v = new Random().Next();
+            var a = Stream.Repeat(v).Foldr<int, Stream<int>>((x, r) => Stream.Cons(x + 1, () => r())).Take(10).ToArray();
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.Equal(a[i], v + 1);
+            }
+        }
+
+        [Fact]
+        public static void Filter()
+        {
+            var v = new Random().Next();
+            var a = Stream.From(v).Filter(x => x % 2 == 0).Take(10).ToArray();
+            foreach (var i in a)
+            {
+                Assert.Equal(0, i % 2);
+            }
+        }
+
+        [Fact]
+        public static void Take()
+        {
+            var s = Stream.From(0);
+            for (var i = -2; i <= 2; i++)
+            {
+                Assert.Equal(Math.Max(0, i), s.Take(i).Count());
+            }
+        }
+
+        [Fact]
+        public static void Drop()
+        {
+            var s = Stream.From(0);
+            for (var i = -2; i <= 2; i++)
+            {
+                Assert.Equal(Math.Max(0, i), s.Drop(i).Head);
+            }
+        }
+
+        [Fact]
+        public static void ZipWith()
+        {
+            var s = Stream.From(0).ZipWith((x, y) => x * 2 + y, Stream.Repeat(42));
+            var t = Stream.FromThen(42, 2);
+
+            for (var i = 0; i < 20; i++)
+            {
+                Assert.Equal(t.Head, s.Head);
+                s = s.Tail.Value;
+                t = t.Tail.Value;
+            }
+        }
+
+        [Fact]
+        public static void FMap()
+        {
+            var s = Stream.FromThen(42, 2).FMap(x => (x - 42) / 2);
+            var t = Stream.From(0);
+
+            for (var i = 0; i < 20; i++)
+            {
+                Assert.Equal(t.Head, s.Head);
+                s = s.Tail.Value;
+                t = t.Tail.Value;
+            }
         }
     }
 }
