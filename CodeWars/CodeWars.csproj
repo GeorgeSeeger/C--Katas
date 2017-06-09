@@ -71,6 +71,7 @@
     <Compile Include="Digits.cs" />
     <Compile Include="DoubleLinear.cs" />
     <Compile Include="Factorials.cs" />
+    <Compile Include="Factors.cs" />
     <Compile Include="FunctionalStreams.cs" />
     <Compile Include="Greed.cs" />
     <Compile Include="IntPart.cs" />
