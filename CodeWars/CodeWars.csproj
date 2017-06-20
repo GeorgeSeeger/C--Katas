@@ -86,13 +86,17 @@
     <Compile Include="PrimeDecomp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Permutation.cs" />
+    <Compile Include="PyramidSlideDown.cs" />
     <Compile Include="Reflection.cs" />
+    <Compile Include="ReversePolishCalculator.cs" />
     <Compile Include="Roman.cs" />
     <Compile Include="Runes.cs" />
     <Compile Include="SimpleFun.cs" />
     <Compile Include="Squares.cs" />
     <Compile Include="TextAlign.cs" />
     <Compile Include="TicTacToe.cs" />
+    <Compile Include="ToSmallest.cs" />
+    <Compile Include="TotalIncreasingOrDecreasing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
