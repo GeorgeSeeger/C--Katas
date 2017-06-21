@@ -74,6 +74,7 @@
     <Compile Include="Factors.cs" />
     <Compile Include="FunctionalStreams.cs" />
     <Compile Include="Greed.cs" />
+    <Compile Include="HeapPermutations.cs" />
     <Compile Include="IntPart.cs" />
     <Compile Include="IPv4.cs" />
     <Compile Include="JosephusSurvivor.cs" />
