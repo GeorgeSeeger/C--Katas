@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnagramOrdering.cs" />
     <Compile Include="BaseConvert.cs" />
     <Compile Include="Belong.cs" />
     <Compile Include="Big.cs" />
