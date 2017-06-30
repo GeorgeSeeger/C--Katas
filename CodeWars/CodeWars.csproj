@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="AnagramOrdering.cs" />
     <Compile Include="BaseConvert.cs" />
+    <Compile Include="BattleshipsCalculator.cs" />
     <Compile Include="Belong.cs" />
     <Compile Include="Big.cs" />
     <Compile Include="Brace.cs" />
