@@ -38,7 +38,7 @@ namespace CodeWars {
         {
             for (var i = 0; i < strikes.GetLength(0); i++) {
                 foreach (var battleship in Battleships.Values) {
-                    var coord = new[] {strikes[i, 1] - 1, strikes[i, 0] - 1 };
+                    var coord = new[] {strikes[i, 0] - 1, strikes[i, 1] - 1 };
                     battleship.MissileStrikeAt(coord);
                 }
             }
@@ -130,7 +130,8 @@ namespace CodeWars {
                              { 0, 2, 1 },
                              { 0, 2, 0 } };
             int[,] attacks = { { 2, 1 }, { 2, 2 }, { 3, 2 }, { 3, 3 } };
-            var result = new BattleshipsCalculator(board, attacks).Results();
+            var calc = new BattleshipsCalculator(board, attacks);
+            var result = calc.Results();
             Assert.Equal(1, result["sunk"]);
             Assert.Equal(1, result["damaged"]);
             Assert.Equal(1, result["notTouched"]);
