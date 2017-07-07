@@ -72,7 +72,7 @@
     <Compile Include="Convert.cs" />
     <Compile Include="Digits.cs" />
     <Compile Include="DoubleLinear.cs" />
-    <Compile Include="Factorials.cs" />
+    <Compile Include="FactorialsWithoutBigInteger.cs" />
     <Compile Include="Factors.cs" />
     <Compile Include="FunctionalStreams.cs" />
     <Compile Include="Greed.cs" />
@@ -96,6 +96,7 @@
     <Compile Include="Runes.cs" />
     <Compile Include="SimpleFun.cs" />
     <Compile Include="Squares.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="TextAlign.cs" />
     <Compile Include="TicTacToe.cs" />
     <Compile Include="ToSmallest.cs" />
