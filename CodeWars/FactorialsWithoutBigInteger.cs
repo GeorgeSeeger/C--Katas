@@ -17,19 +17,18 @@ namespace CodeWars {
 
         public static string StringAddition(string num1, string num2)
         {
-            var answer = "";
-            var b = new[] {num1, num2}.OrderByDescending(s => s.Length).First();
-            var a = new[] {num1, num2}.OrderBy(s => s.Length).First();
+            var temp = new[] {0}.Concat(num1.ToCharArray().Zip(num2.ToCharArray(), (c1, c2) => int.Parse(c1.ToString()) + int.Parse(c2.ToString()))).Reverse();
             var carryTheOne = false;
-            var sum = 0;
-            for (var i = b.Length - 1; i >= 0; i--) {
-                var c = b[i].ToString();
-                var cc = i + a.Length - b.Length >= 0 ? a[i + a.Length - b.Length].ToString() : "0";
-                sum = int.Parse(c) + int.Parse(cc) + (carryTheOne ? 1 : 0);
-                answer = sum.ToString().Last() + answer;
-                carryTheOne = sum >= 10;
-            }
-            return (carryTheOne ? "1" : "") + answer;
+            return string.Join("", temp.Select(j =>
+            {
+                j += carryTheOne ? 1 : 0;
+                if (j > 9) {
+                    carryTheOne = true;
+                    return j % 10;
+                }
+                carryTheOne = false;
+                return j;
+            }).Reverse()).TrimStart('0');
         }
 
         public static string StringMultiplication(string a, string b)

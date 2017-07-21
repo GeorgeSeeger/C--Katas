@@ -96,7 +96,6 @@
     <Compile Include="Runes.cs" />
     <Compile Include="SimpleFun.cs" />
     <Compile Include="Squares.cs" />
-    <Compile Include="Test.cs" />
     <Compile Include="TextAlign.cs" />
     <Compile Include="TicTacToe.cs" />
     <Compile Include="ToSmallest.cs" />
