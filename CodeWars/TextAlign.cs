@@ -11,14 +11,17 @@ namespace CodeWars
     {
         public static string Justify(string str, int len)
         {
+            if (str == string.Empty || str.Length <= len || len == 0) return str;
             var lines = new List<List<string>>();
             var line = new List<string>();
             var words = str.Split(' ');
+            if (words.Any(s => s.Length > len)) return str;
+
             for (var k = 0; k < words.Length; k ++)
             {
                 var word = words[k];
                 var charCount = line.Count > 0?
-                    line.Select(s => s.Length).Aggregate((i, a) => i + a)
+                    line.Select(s => s.Length).Sum()
                     : 0 ;
                 if (charCount > len - line.Count - word.Length)
                 {
@@ -33,7 +36,7 @@ namespace CodeWars
             for (var j = 0; j < lines.Count; j++)
             {
                 var uLine = lines[j];
-                var charCount = uLine.Select(s => s.Length).Aggregate((i, a) => i + a);
+                var charCount = uLine.Select(s => s.Length).Sum();
                 var spaces = len - charCount;
                 var spaceList = j == lines.Count - 1
                     ? Enumerable.Repeat(1, uLine.Count - 1).ToList()
@@ -62,6 +65,8 @@ namespace CodeWars
         {
             Assert.Equal(justifiedLorem.Replace("\r", ""), Justify(lorem, 30));
             Assert.Equal("", Justify("", 30));
+            Assert.Equal("hello", Justify("hello", 30));
+            Assert.Equal("hello", Justify("hello", 4));
         }
 
         private string justifiedLorem = @"Lorem  ipsum  dolor  sit amet,

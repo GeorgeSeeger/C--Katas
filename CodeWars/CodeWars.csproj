@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnagramOrdering.cs" />
+    <Compile Include="Base64Utils.cs" />
     <Compile Include="BaseConvert.cs" />
     <Compile Include="BattleshipsCalculator.cs" />
     <Compile Include="Belong.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Convert.cs" />
     <Compile Include="Digits.cs" />
     <Compile Include="DoubleLinear.cs" />
+    <Compile Include="EsolangPaintfuck.cs" />
     <Compile Include="FactorialsWithoutBigInteger.cs" />
     <Compile Include="Factors.cs" />
     <Compile Include="FunctionalStreams.cs" />
