@@ -88,7 +88,7 @@ namespace CodeWars {
             while (finder < 0) {
                 if (counter > 0 && this.code[this.codePointer] == bracket) finder++;
                 if (counter > 0 && this.code[this.codePointer] == (bracket == ']' ? '[' : ']')) finder--;
-                if (bracket == ']' && finder <= 0) this.codePointer++;
+                if (bracket == ']' && finder < 0) this.codePointer++;
                 else if (bracket == '[' && finder < 0) this.codePointer--;
                 counter = 1;
             }           
