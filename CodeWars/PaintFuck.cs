@@ -84,11 +84,13 @@ namespace CodeWars {
         private void GoToMatching(char bracket) {
             if (bracket != '[' && bracket != ']') throw new ArgumentException();
             var finder = -1;
+            var counter = 0;
             while (finder < 0) {
-                if (this.code[this.codePointer] == (bracket == ']' ? '[' : ']')) finder++;
-                if (this.code[this.codePointer] == (bracket == ']' ? ']' : '[')) finder--;
-                if (bracket == ']' && finder < 0) this.codePointer--;
-                else if(bracket == '[' && finder < 0) this.codePointer++;
+                if (counter > 0 && this.code[this.codePointer] == bracket) finder++;
+                if (counter > 0 && this.code[this.codePointer] == (bracket == ']' ? '[' : ']')) finder--;
+                if (bracket == ']' && finder <= 0) this.codePointer++;
+                else if (bracket == '[' && finder < 0) this.codePointer--;
+                counter = 1;
             }           
         }
 
@@ -107,9 +109,17 @@ namespace CodeWars {
     public class PaintfuckTests {
         [Fact]
         public void Tests() {
+            //Output and init test
             Assert.Equal("000000\r\n000000\r\n000000\r\n000000\r\n000000\r\n000000\r\n000000\r\n000000\r\n000000",
                 PaintFuck.Interpret("*e*e*e*es*es*ws*ws*w*w*w*n*n*n*ssss*s*s*s*", 0, 6, 9));
+            //basic instruction test
             Assert.Equal("111100\r\n100010\r\n100001\r\n100010\r\n111100\r\n100000\r\n100000\r\n100000\r\n100000", PaintFuck.Interpret("*e*e*e*es*es*ws*ws*w*w*w*n*n*n*ssss*s*s*s*", 100, 6, 9));
+            //basic loops
+            Assert.Equal("10000\r\n01000\r\n00100\r\n00000\r\n00000",
+                PaintFuck.Interpret("*[es*]", 10, 5, 5));
+            //nested loops
+            Assert.Equal("10000\r\n10000\r\n10000\r\n00000\r\n00000",
+                    PaintFuck.Interpret("*[s[e]*]", 9, 5, 5));
         }
     }
 }
