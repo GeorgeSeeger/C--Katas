@@ -71,6 +71,7 @@
     <Compile Include="CarMilage.cs" />
     <Compile Include="ConnectFour.cs" />
     <Compile Include="Convert.cs" />
+    <Compile Include="ConwayLife.cs" />
     <Compile Include="Digits.cs" />
     <Compile Include="DoubleLinear.cs" />
     <Compile Include="PaintFuck.cs" />
