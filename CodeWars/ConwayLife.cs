@@ -8,28 +8,28 @@ using Xunit;
 namespace CodeWars {
     public class ConwayLife {
         private readonly int[,] cells;
-        private int[,] newField;
-        public int[,] Cells => newField;
+        private int[,] newCells;
+        public int[,] Cells => cells;
 
         public ConwayLife(int[,] cells) {
             this.cells = cells;
-            this.newField = new int[cells.GetLongLength(0) + 2, cells.GetLongLength(1) + 2];
+            this.newCells = new int[cells.GetLongLength(0) + 2, cells.GetLongLength(1) + 2];
         }
 
         public ConwayLife NextGeneration() {
-            for (var i = 0; i <= newField.GetUpperBound(0); i++) {
-                for (var j = 0; j <= newField.GetUpperBound(1); j++) {
+            for (var i = 0; i <= newCells.GetUpperBound(0); i++) {
+                for (var j = 0; j <= newCells.GetUpperBound(1); j++) {
                     var neighbours = this.GetNeighbours(i, j);
-                    if (ItLives(neighbours, this.GetCellAt(i, j))) newField[i, j] = 1;
+                    if (ItLives(neighbours, this.GetCellAt(i, j))) newCells[i, j] = 1;
                 }
             }
             CropNewField();
-            return new ConwayLife(this.newField);
+            return new ConwayLife(this.newCells);
         }
 
         private int GetCellAt(int i, int j) {
-            if (i < 1 || i + 1 > this.cells.GetUpperBound(0) || j < 1 || j + 1 > this.cells.GetUpperBound(1)) return 0;
-            return this.cells[i, j];
+            if (i < 1 || i - 1 > this.cells.GetUpperBound(0) || j < 1 || j - 1 > this.cells.GetUpperBound(1)) return 0;
+            return this.cells[i - 1, j - 1];
         }
 
         private bool ItLives(int[] neighbours, int cell) {
@@ -38,63 +38,70 @@ namespace CodeWars {
         }
 
         private void CropNewField() {
-            int top = 0;
-            int bottom = 0;
-            int left = 0;
-            int right = 0;
-            for (int i = 0; i <= newField.GetUpperBound(0); i++) {
+            var top = 0;
+            var bottom = 0;
+            var left = 0;
+            var right = 0;
+            for (int i = 0; i <= newCells.GetUpperBound(0); i++) {
                 var row = new List<int>();
-                for (int j = 0; j <= newField.GetUpperBound(1); j++ ){
-                    row.Add(this.newField[i, j]);
+                for (int j = 0; j <= newCells.GetUpperBound(1); j++) {
+                    row.Add(this.newCells[i, j]);
                 }
                 if (row.Contains(1)) {
                     bottom = i;
                     break;
                 }
             }
-            for (int i = newField.GetUpperBound(0); i >= 0; i--) {
+            for (int i = newCells.GetUpperBound(0); i >= 0; i--) {
                 var row = new List<int>();
-                for (int j = 0; j <= newField.GetUpperBound(1); j++) {
-                    row.Add(this.newField[i, j]);
+                for (int j = 0; j <= newCells.GetUpperBound(1); j++) {
+                    row.Add(this.newCells[i, j]);
                 }
                 if (row.Contains(1)) {
                     top = i;
                     break;
                 }
             }
-            for (int i = newField.GetUpperBound(1); i >= 0; i--) {
+            for (int i = newCells.GetUpperBound(1); i >= 0; i--) {
                 var row = new List<int>();
-                for (int j = 0; j <= newField.GetUpperBound(0); j++) {
-                    row.Add(this.newField[j, i]);
+                for (int j = 0; j <= newCells.GetUpperBound(0); j++) {
+                    row.Add(this.newCells[j, i]);
                 }
                 if (row.Contains(1)) {
                     right = i;
                     break;
                 }
             }
-            for (int i = 0; i <= newField.GetUpperBound(1); i++) {
+            for (int i = 0; i <= newCells.GetUpperBound(1); i++) {
                 var row = new List<int>();
-                for (int j = 0; j <= newField.GetUpperBound(0); j++) {
-                    row.Add(this.newField[j, i]);
+                for (int j = 0; j <= newCells.GetUpperBound(0); j++) {
+                    row.Add(this.newCells[j, i]);
                 }
                 if (row.Contains(1)) {
                     left = i;
                     break;
                 }
             }
-            if (new[] {top, bottom, left, right}.Any(i => i > 0)) {
+            CropBetween(top, bottom, left, right);
+        }
+
+        private void CropBetween(int top, int bottom, int left, int right) {
+            if (new[] { top, bottom, left, right }.Any(i => i > 0)) {
                 var temp = new int[top - bottom + 1, right - left + 1];
                 int k = 0;
                 int l = 0;
                 for (int i = bottom; i <= top; i++) {
                     for (int j = left; j <= right; j++) {
-                        temp[k, l] = newField[i, j];
+                        temp[k, l] = newCells[i, j];
                         l++;
                     }
                     l = 0;
                     k++;
                 }
-                newField = temp;
+                newCells = temp;
+            }
+            else {
+                newCells = new int[0, 0];
             }
         }
 
@@ -108,13 +115,9 @@ namespace CodeWars {
 
         private int[] GetNeighbours(int i, int j) {
             var neighbours = new List<int>();
-            var rowLBound = i - 2 < 0 ? 0 : i - 2;
-            var rowUBound = i > this.cells.GetUpperBound(0) ? this.cells.GetUpperBound(0) : i ;
-            var colLBound = j - 2 < 0 ? 0 : j - 2;
-            var colUBound = j > this.cells.GetUpperBound(1) ? this.cells.GetUpperBound(1) : j;
-            for (var k = rowLBound; k <= rowUBound; k++) {
-                for (var l = colLBound; l <= colUBound; l++) {
-                    if (k + 1 != i || l + 1 != j) neighbours.Add(this.cells[k, l]);
+          for (var k = i - 1; k <= i + 1; k++) {
+                for (var l = j - 1; l <= j + 1; l++) {
+                    if (k != i || l != j) neighbours.Add(this.GetCellAt(k, l));
                 }
             }
             return neighbours.ToArray();
@@ -123,7 +126,7 @@ namespace CodeWars {
         public static int[,] GetGeneration(int[,] cells, int generation) {
             var field = new ConwayLife(cells);
             for (var i = 0; i < generation; i++) {
-                field.NextGeneration();
+                field = field.NextGeneration();
             }
             return field.Cells;
         }
